@@ -1,7 +1,7 @@
 package main
 
 import (
-	"proyecto-final/proyecto-leo/servidor/routes"
+	"proyectos/proyecto-leo/servidor/routes"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

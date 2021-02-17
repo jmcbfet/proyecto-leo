@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"proyecto-final/proyecto-leo/servidor/middleware"
-	"proyecto-final/proyecto-leo/servidor/services"
+	"proyectos/proyecto-leo/servidor/middleware"
+	"proyectos/proyecto-leo/servidor/services"
 
 	"github.com/gin-gonic/gin"
 )

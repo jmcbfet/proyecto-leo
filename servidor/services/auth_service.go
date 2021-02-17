@@ -3,9 +3,9 @@ package services
 import (
 	"fmt"
 	"net/http"
-	"proyecto-final/proyecto-leo/servidor/authorization"
-	"proyecto-final/proyecto-leo/servidor/database"
-	"proyecto-final/proyecto-leo/servidor/models"
+	"proyectos/proyecto-leo/servidor/authorization"
+	"proyectos/proyecto-leo/servidor/database"
+	"proyectos/proyecto-leo/servidor/models"
 
 	"github.com/gin-gonic/gin"
 )

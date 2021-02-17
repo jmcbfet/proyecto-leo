@@ -1,4 +1,4 @@
-module proyecto-final/proyecto-leo/servidor
+module proyectos/proyecto-leo/servidor
 
 go 1.15
 
@@ -21,7 +21,7 @@ require (
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/ugorji/go v1.2.4 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
-	golang.org/x/sys v0.0.0-20210216224549-f992740a1bac // indirect
+	golang.org/x/sys v0.0.0-20210217105451-b926d437f341 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -3,8 +3,8 @@ package services
 import (
 	"fmt"
 	"net/http"
-	"proyecto-final/proyecto-leo/servidor/database"
-	"proyecto-final/proyecto-leo/servidor/models"
+	"proyectos/proyecto-leo/servidor/database"
+	"proyectos/proyecto-leo/servidor/models"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
