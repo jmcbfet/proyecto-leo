@@ -3,32 +3,70 @@ import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 import ClienteAxios from '../../config/axios';
 import { 
-    CORREO_EXISTENTE,
-    USUARIO_AGREGADO
+    REGISTRO_EXITOSO,
+    REGISTRO_ERROR,
+    LOGIN_EXITOSO,
+    LOGIN_ERROR,
 } from '../../types';
 
 const AuthState = (props) => {
 
     const initialState = {
-        mensaje: null
+        mensaje: null,
+        auth: false,
+        usuario: null,
+        rol: null
     }
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
 
-    const ListarUsuarios = async () => {
+    const RegistrarUsuario = async (datos) => {
         try {
-            const usuarios = await ClienteAxios.get('/user/find')
-            console.log(usuarios);
+            const response = await ClienteAxios.post('/user/add', datos);
+            dispatch({
+                type: REGISTRO_EXITOSO,
+                payload: response.data.msg
+            });
         } catch (error) {
-            console.log(error);
+            dispatch({
+                type: REGISTRO_ERROR,
+                payload: error.response.data.msg 
+            });
+        }
+    }
+
+    const IngresarUsuario = async (datos) => {
+        try {
+            const usuario = await ClienteAxios.post('/user/login', datos);
+            dispatch({
+                type: LOGIN_EXITOSO,
+                payload: usuario.data
+            });
+        } catch (error) {
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: error.response.data.msg 
+            });
+            
+        }
+    }
+
+    const UsuarioAutenticado = () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+
         }
     }
 
     return (
         <AuthContext.Provider
             value={{
+                mensaje: state.mensaje,
                 auth: state.auth,
-                ListarUsuarios
+                usuario: state.usuario,
+                rol: state.rol,
+                RegistrarUsuario,
+                IngresarUsuario
             }}
         >
             {props.children}

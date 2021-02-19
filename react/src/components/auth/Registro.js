@@ -9,7 +9,7 @@ const Registro = () => {
 
     const authContext = useContext(AuthContext);
 
-    const { ListarUsuarios } = authContext;
+    const { RegistrarUsuario } = authContext;
 
     const styles = FormStyles();
 
@@ -33,8 +33,7 @@ const Registro = () => {
         validationSchema: formValidation,
         onSubmit: (values) => {
             const json = JSON.stringify(values)
-            console.log(json);
-            ListarUsuarios();
+            RegistrarUsuario(json);
         }
     });
 

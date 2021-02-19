@@ -1,80 +1,75 @@
-import React, { Fragment, useState, useContext } from 'react';
-import AlertasContext from '../../context/alertas/alertasContext';
+import React, { useContext } from 'react'
+import { TextField, Button } from '@material-ui/core';
+import { FormStyles } from '../../styles/Form';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import AuthContext from '../../context/auth/authContext';
 
 const Login = () => {
 
-    const alertasContext = useContext(AlertasContext);
+    const authContext = useContext(AuthContext);
 
-    const { alerta, mostrarAlerta } = alertasContext;
+    const { IngresarUsuario } = authContext;
 
-    const [user, newUser] = useState({
-        correo: '',
-        password: ''
+    const styles = FormStyles();
+
+    const formValidation = yup.object({
+        correo:   yup.string().email("Correo no valido").required("El correo es obligatorio"),
+        password: yup.string().min(6, "La Contraseña debe tener minimo 6 caracteres").required("La contraseña es obligatoria")
     });
 
-    const { correo, password } = user;
+    const formData = {
+        correo: '',
+        password: '',
+    }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        if (correo.trim() === '' || password.trim() === '') {
-            mostrarAlerta("Todos los campos son obligatorios", "alert-danger")
-            return;
+    const formik = useFormik({
+        initialValues: formData,
+        validationSchema: formValidation,
+        onSubmit: (values) => {
+            const json = JSON.stringify(values)
+            IngresarUsuario(json);
         }
-
-        
-
-    }
-
-    const onChange = (e) => {
-        newUser({
-            ...user,
-            [e.target.name]: e.target.value
-        });
-    }
+    });
 
     return (
-
         <div>
-            <form
-                onSubmit={onSubmit}
-            >
-                <div className="form-group">
-                    <label>Correo: </label>
-                    <input
-                        type="text"
-                        name="correo"
-                        onChange={onChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={onChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="submit"
-                        value="Ingresar"
-                        className="btn btn-primary"
-                    />
-                </div>
-
+            <form onSubmit={formik.handleSubmit}>
+                <TextField
+                    className={styles.input}
+                    id="correo"
+                    name="correo"
+                    label="Correo"
+                    variant="outlined"
+                    value={formik.values.correo}
+                    onChange={formik.handleChange}
+                    error={formik.touched.correo && Boolean(formik.errors.correo)}
+                    helperText={formik.touched.correo && formik.errors.correo}
+                    onBlur={formik.handleBlur}
+                />
+                <TextField
+                    className={styles.input}
+                    id="password"
+                    name="password"
+                    label="Contraseña"
+                    variant="outlined"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                    onBlur={formik.handleBlur}
+                />
+                <Button 
+                    variant="contained" 
+                    color="primary"
+                    type="submit"
+                    className={styles.buttonSubmit}
+                >
+                    Ingresar
+                </Button>
             </form>
-
-            {alerta ?
-                <div className={`alert alert-dismissible ${alerta.type} mt-4`}>
-                    <strong>{alerta.mensaje}</strong>
-                </div>
-                : null}
-
         </div>
-    )
+    );
 }
 
 export default Login;

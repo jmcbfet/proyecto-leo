@@ -28,17 +28,14 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	err := database.DBClient.Get(&reqBody, "SELECT correo,password FROM usuarios WHERE correo = ? AND password = ?",
+	err := database.DBClient.Get(&reqBody, "SELECT nombre,apellido,correo,password,id_rol FROM usuarios WHERE correo = ? AND password = ?",
 		reqBody.Correo,
 		reqBody.Password,
 	)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"auth":     false,
-			"email":    reqBody.Correo,
-			"password": reqBody.Password,
-			"error":    err.Error(),
+			"msg": "Cuenta no valida",
 		})
 		return
 	}
@@ -50,7 +47,8 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"token":   token,
+		"usuario": reqBody,
 	})
 
 }
