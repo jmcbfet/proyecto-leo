@@ -19,7 +19,10 @@ func JWTAuth() gin.HandlerFunc {
 
 		if tokenString == "" {
 
-			c.Abort()
+			c.JSON(401, gin.H{
+				"msg": "No hay token",
+			})
+			return
 
 		} else {
 

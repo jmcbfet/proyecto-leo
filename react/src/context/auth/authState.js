@@ -7,13 +7,16 @@ import {
     REGISTRO_ERROR,
     LOGIN_EXITOSO,
     LOGIN_ERROR,
+    OBTENER_USUARIO,
+    CERRAR_SESION
 } from '../../types';
+import tokenAuth from '../../config/token';
 
 const AuthState = (props) => {
 
     const initialState = {
         mensaje: null,
-        auth: false,
+        auth: null,
         usuario: null,
         rol: null
     }
@@ -28,6 +31,7 @@ const AuthState = (props) => {
                 payload: response.data.msg
             });
         } catch (error) {
+            console.log(error.response);
             dispatch({
                 type: REGISTRO_ERROR,
                 payload: error.response.data.msg 
@@ -42,20 +46,38 @@ const AuthState = (props) => {
                 type: LOGIN_EXITOSO,
                 payload: usuario.data
             });
+            UsuarioAutenticado()
         } catch (error) {
             dispatch({
                 type: LOGIN_ERROR,
                 payload: error.response.data.msg 
             });
-            
         }
     }
 
-    const UsuarioAutenticado = () => {
+    const UsuarioAutenticado = async () => {
         const token = localStorage.getItem('token');
-        if (token) {
-
+        if(token) tokenAuth(token);
+        
+        try {
+            const usuario = await ClienteAxios.get('/user/getdata');
+            console.log(usuario.data.id_rol);
+            dispatch({
+                type: OBTENER_USUARIO,
+                payload: usuario.data
+            });
+        } catch (error) {
+            console.log(error.response);
+            dispatch({
+                type: LOGIN_ERROR
+            })
         }
+    }
+
+    const CerrarSesion = () => {
+        dispatch({
+            type: CERRAR_SESION
+        })
     }
 
     return (
@@ -66,7 +88,9 @@ const AuthState = (props) => {
                 usuario: state.usuario,
                 rol: state.rol,
                 RegistrarUsuario,
-                IngresarUsuario
+                IngresarUsuario,
+                UsuarioAutenticado,
+                CerrarSesion
             }}
         >
             {props.children}

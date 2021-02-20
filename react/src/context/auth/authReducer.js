@@ -3,7 +3,8 @@ import {
     REGISTRO_ERROR,
     LOGIN_EXITOSO,
     LOGIN_ERROR,
-    OCULTAR_MENSAJE,
+    OBTENER_USUARIO,
+    CERRAR_SESION
 } from '../../types';
 
 export default (state, action) => {
@@ -13,31 +14,38 @@ export default (state, action) => {
         default:
             return state
 
-        
         case LOGIN_EXITOSO:
             localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
                 auth: true,
                 mensaje: null,
-                rol: action.payload.usuario.id_rol,
-                usuario: action.payload.usuario
+            }
+
+        case OBTENER_USUARIO:
+            return {
+                ...state,
+                auth: true,
+                usuario: action.payload,
+                rol: action.payload.id_rol
             }
 
         case LOGIN_ERROR:
+            return {
+                ...state,
+                mensaje: action.payload,
+            }
+
+        case CERRAR_SESION:
             localStorage.removeItem('token');
             return {
                 ...state,
                 auth: false,
-                mensaje: action.payload,
-                rol: null,
+                mensaje: null,
+                usuario: null
             }
 
-        case OCULTAR_MENSAJE:
-            return {
-                ...state,
-                mensaje: null
-            }
+        
         
     }
 

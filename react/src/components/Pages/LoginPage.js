@@ -16,11 +16,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (auth) {
-            if (rol === 2) {
-                history.push("/")
-            } else {
-                history.push("/dashboard")
-            }
+            history.push("/");
         }
     }, [auth, rol]);
     

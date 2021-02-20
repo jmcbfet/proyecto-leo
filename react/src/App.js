@@ -12,6 +12,10 @@ import AlertasState from './context/alertas/alertasState';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './config/theme';
+import tokenAuth from './config/token';
+
+const token = localStorage.getItem('token');
+if (token) tokenAuth(token);
 
 const App = () => {
 

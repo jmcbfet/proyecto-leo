@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
     CssBaseline,
@@ -15,10 +15,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import { DashboardStyles } from '../../styles/Dashboard';
 import MenuDrawer from '../Layout/MenuDrawer';
+import AuthContext from '../../context/auth/authContext';
 import Parte1 from '../Dashboard/Parte1';
 import Parte2 from '../Dashboard/Parte2';
 
 const AdminPage = (props) => {
+
+    const authContext = useContext(AuthContext);
+    const { UsuarioAutenticado } = authContext;
+
+    useEffect(() => {
+        UsuarioAutenticado();
+    }, [])
 
     const { window } = props;
     const classes = DashboardStyles();

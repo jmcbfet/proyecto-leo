@@ -14,11 +14,11 @@ var (
 	secret = []byte("secret")
 )
 
+var reqBody models.Usuario
+
 func Login(c *gin.Context) {
 
 	database.DBConnection()
-
-	var reqBody models.Usuario
 
 	if err := c.ShouldBindJSON(&reqBody); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -50,5 +50,25 @@ func Login(c *gin.Context) {
 		"token":   token,
 		"usuario": reqBody,
 	})
+
+}
+
+func ObtenerDatosUsuario(c *gin.Context) {
+
+	database.DBConnection()
+
+	err := database.DBClient.Get(&reqBody, "SELECT nombre,apellido,correo,password,id_rol FROM usuarios WHERE correo = ? AND password = ?",
+		reqBody.Correo,
+		reqBody.Password,
+	)
+
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"msg": "Cuenta no valida",
+		})
+		return
+	}
+
+	c.JSON(200, reqBody)
 
 }
