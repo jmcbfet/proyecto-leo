@@ -1,22 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
     List,
     ListItem,
     ListItemText,
     ListItemIcon,
-    Button
 } from '@material-ui/core';
 import { AddCircle } from '@material-ui/icons';
 import { NavLink } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
 
 const Lista = () => {
 
-    const authContext = useContext(AuthContext);
-    const { CerrarSesion } = authContext;
-
     return (
         <List>
+
             <NavLink to="/dashboard/parte-1">
                 <ListItem
                     button
@@ -39,14 +35,6 @@ const Lista = () => {
                 </ListItem>
             </NavLink>
 
-            <Button
-                variant="text"
-                color="inherit"
-                href="/"
-                onClick={CerrarSesion}
-            >
-                Cerrar Sesion
-            </Button>
         </List>
     )
 }

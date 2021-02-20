@@ -52,7 +52,6 @@ const Navbar = () => {
                                 Registro
                             </Button>
                         </div>
-                        
                     }
                 </Toolbar>
             </AppBar>

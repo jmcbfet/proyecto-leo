@@ -7,6 +7,7 @@ import {
     IconButton,
     Toolbar,
     Typography,
+    Button
 } from '@material-ui/core';
 import {
     Menu,
@@ -22,7 +23,7 @@ import Parte2 from '../Dashboard/Parte2';
 const AdminPage = (props) => {
 
     const authContext = useContext(AuthContext);
-    const { UsuarioAutenticado } = authContext;
+    const { UsuarioAutenticado, CerrarSesion } = authContext;
 
     useEffect(() => {
         UsuarioAutenticado();
@@ -31,7 +32,7 @@ const AdminPage = (props) => {
     const { window } = props;
     const classes = DashboardStyles();
     const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const [ mobileOpen, setMobileOpen ] = useState(false);
     
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -57,8 +58,18 @@ const AdminPage = (props) => {
                         <Typography variant="h6" noWrap>
                             PANEL ADMINISTRATIVO 
                         </Typography>
+                        <Button 
+                            variant="text" 
+                            color="inherit"
+                            href="/"
+                            onClick={CerrarSesion}
+                        >
+                            Cerrar Sesion
+                        </Button>
                     </Toolbar>
                 </AppBar>
+
+                <div className={classes.offset}></div>
 
                 <nav className={classes.drawer} aria-label="mailbox folders">
                     <Hidden smUp implementation="css">

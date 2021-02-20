@@ -6,6 +6,7 @@ import LoginPage from './components/Pages/LoginPage';
 import RegistroPage from './components/Pages/RegistroPage';
 import ReservaPage from './components/Pages/ReservaPage';
 import AdminPage from './components/Pages/AdminPage';
+import UsuarioPage from './components/Pages/UsuarioPage';
 
 import AuthState from './context/auth/authState';
 import AlertasState from './context/alertas/alertasState';
@@ -30,6 +31,7 @@ const App = () => {
               <Route exact path="/registro" component={RegistroPage} />
               <Route exact path="/reserva" component={ReservaPage} />
               <Route exact path="/dashboard" component={AdminPage} />
+              <Route exact path="/usuario" component={UsuarioPage} />
             </Switch>
           </Router>
         </AlertasState>
