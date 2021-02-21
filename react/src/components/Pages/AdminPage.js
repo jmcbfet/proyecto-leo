@@ -23,7 +23,7 @@ import Parte2 from '../Dashboard/Parte2';
 const AdminPage = (props) => {
 
     const authContext = useContext(AuthContext);
-    const { UsuarioAutenticado, CerrarSesion } = authContext;
+    const { UsuarioAutenticado, CerrarSesion, usuario } = authContext;
 
     useEffect(() => {
         UsuarioAutenticado();
@@ -55,9 +55,13 @@ const AdminPage = (props) => {
                         >
                             <Menu />
                         </IconButton>
-                        <Typography variant="h6" noWrap>
-                            PANEL ADMINISTRATIVO 
-                        </Typography>
+                        {usuario ?
+                            <Typography variant="h6" noWrap>
+                                {usuario.nombre} {usuario.apellido}
+                            </Typography>
+                        : null
+                        }
+                        <div className={classes.offset}></div>
                         <Button 
                             variant="text" 
                             color="inherit"
@@ -68,8 +72,6 @@ const AdminPage = (props) => {
                         </Button>
                     </Toolbar>
                 </AppBar>
-
-                <div className={classes.offset}></div>
 
                 <nav className={classes.drawer} aria-label="mailbox folders">
                     <Hidden smUp implementation="css">

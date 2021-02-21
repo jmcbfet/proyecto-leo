@@ -15,6 +15,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './config/theme';
 import tokenAuth from './config/token';
 
+import RutaPrivada from './components/rutas/RutaPrivada';
+
 const token = localStorage.getItem('token');
 if (token) tokenAuth(token);
 
@@ -30,8 +32,8 @@ const App = () => {
               <Route exact path="/login" component={LoginPage} />
               <Route exact path="/registro" component={RegistroPage} />
               <Route exact path="/reserva" component={ReservaPage} />
-              <Route exact path="/dashboard" component={AdminPage} />
-              <Route exact path="/usuario" component={UsuarioPage} />
+              <RutaPrivada exact path="/dashboard" component={AdminPage} />
+              <RutaPrivada exact path="/usuario" component={UsuarioPage} />
             </Switch>
           </Router>
         </AlertasState>

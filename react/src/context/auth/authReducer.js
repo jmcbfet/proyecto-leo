@@ -27,7 +27,7 @@ export default (state, action) => {
                 ...state,
                 auth: true,
                 usuario: action.payload,
-                rol: action.payload.id_rol
+                rol: action.payload.id_rol,
             }
 
         case LOGIN_ERROR:
@@ -44,7 +44,6 @@ export default (state, action) => {
                 mensaje: null,
                 usuario: null
             }
-
         
         
     }
