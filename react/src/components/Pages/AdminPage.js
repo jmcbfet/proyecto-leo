@@ -9,9 +9,7 @@ import {
     Typography,
     Button
 } from '@material-ui/core';
-import {
-    Menu,
-} from '@material-ui/icons';
+import { Menu } from '@material-ui/icons';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import { DashboardStyles } from '../../styles/Dashboard';
