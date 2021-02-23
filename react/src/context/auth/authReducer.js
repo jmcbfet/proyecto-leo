@@ -25,6 +25,7 @@ export default (state, action) => {
         case OBTENER_USUARIO:
             return {
                 ...state,
+                mensaje: null,
                 auth: true,
                 usuario: action.payload,
                 rol: action.payload.id_rol,
@@ -43,6 +44,12 @@ export default (state, action) => {
                 auth: false,
                 mensaje: null,
                 usuario: null
+            }
+
+        case REGISTRO_EXITOSO:
+            return {
+                ...state,
+                mensaje: action.payload
             }
         
         

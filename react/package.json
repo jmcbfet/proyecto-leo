@@ -12,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "create-react-nav": "^2.6.1",
     "formik": "^2.2.6",
+    "material-table": "^1.69.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-loader-spinner": "^4.0.0",

@@ -10,6 +10,7 @@ import UsuarioPage from './components/Pages/UsuarioPage';
 
 import AuthState from './context/auth/authState';
 import AlertasState from './context/alertas/alertasState';
+import DashboardState from './context/dashboard/dashboardState';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './config/theme';
@@ -26,16 +27,18 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <AuthState>
         <AlertasState>
-          <Router>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/login" component={LoginPage} />
-              <Route exact path="/registro" component={RegistroPage} />
-              <Route exact path="/reserva" component={ReservaPage} />
-              <RutaPrivada exact path="/dashboard" component={AdminPage} />
-              <RutaPrivada exact path="/usuario" component={UsuarioPage} />
-            </Switch>
-          </Router>
+          <DashboardState>
+            <Router>
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/registro" component={RegistroPage} />
+                <Route exact path="/reserva" component={ReservaPage} />
+                <RutaPrivada exact path="/dashboard" component={AdminPage} />
+                <RutaPrivada exact path="/usuario" component={UsuarioPage} />
+              </Switch>
+            </Router>
+          </DashboardState>
         </AlertasState>
       </AuthState>
     </ThemeProvider>

@@ -15,23 +15,28 @@ import { useTheme } from '@material-ui/core/styles';
 import { DashboardStyles } from '../../styles/Dashboard';
 import MenuDrawer from '../Layout/MenuDrawer';
 import AuthContext from '../../context/auth/authContext';
-import Parte1 from '../Dashboard/Parte1';
-import Parte2 from '../Dashboard/Parte2';
+import DashboardContext from '../../context/dashboard/dashboardContext';
+import Usuarios from '../Dashboard/Usuarios';
+import Platos from '../Dashboard/Platos';
 
 const AdminPage = (props) => {
 
     const authContext = useContext(AuthContext);
-    const { UsuarioAutenticado, CerrarSesion, usuario } = authContext;
+    const { CerrarSesion, usuario, UsuarioAutenticado } = authContext;
 
-    useEffect(() => {
-        UsuarioAutenticado();
-    }, [])
+    const dashboardContext = useContext(DashboardContext);
+    const { ListarUsuarios } = dashboardContext;
 
     const { window } = props;
     const classes = DashboardStyles();
     const theme = useTheme();
     const [ mobileOpen, setMobileOpen ] = useState(false);
     
+    useEffect(() => {
+        ListarUsuarios();
+        UsuarioAutenticado();
+    }, [])
+
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -103,8 +108,8 @@ const AdminPage = (props) => {
                 </nav>
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
-                    <Route exact path='/dashboard/parte-1' component={Parte1} />
-                    <Route exact path='/dashboard/parte-2' component={Parte2} />
+                    <Route exact path='/dashboard/usuarios' component={Usuarios} />
+                    <Route exact path='/dashboard/platos' component={Platos} />
                 </main>
             </div>
         </Router>

@@ -16,7 +16,7 @@ func ListarUsuarios(c *gin.Context) {
 
 	var usuarios []models.Usuario
 
-	err := database.DBClient.Select(&usuarios, "SELECT nombre,apellido,correo,password,id_rol FROM usuarios")
+	err := database.DBClient.Select(&usuarios, "SELECT u.id_usuario ,u.nombre, u.apellido, u.correo, u.password, u.id_rol, r.descripcion FROM usuarios u, roles r WHERE u.id_rol = r.id_rol")
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -95,11 +95,12 @@ func ActualizarUsuario(c *gin.Context) {
 		})
 	}
 
-	res, err3 := database.DBClient.Exec("UPDATE usuarios SET nombre = ?, apellido = ?, correo = ?, password = ? WHERE id_usuario = ?",
+	res, err3 := database.DBClient.Exec("UPDATE usuarios SET nombre = ?, apellido = ?, correo = ?, password = ?, id_rol = ? WHERE id_usuario = ?",
 		reqBody.Nombre,
 		reqBody.Apellido,
 		reqBody.Correo,
 		reqBody.Password,
+		reqBody.Rol,
 		id,
 	)
 
@@ -125,6 +126,7 @@ func AgregarUsuario(c *gin.Context) {
 			"error": err.Error(),
 			"msg":   "json no valido",
 		})
+		return
 	}
 
 	var email int

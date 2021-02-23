@@ -46,7 +46,7 @@ const AuthState = (props) => {
                 type: LOGIN_EXITOSO,
                 payload: usuario.data
             });
-            UsuarioAutenticado()
+            UsuarioAutenticado();
         } catch (error) {
             dispatch({
                 type: LOGIN_ERROR,

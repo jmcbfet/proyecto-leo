@@ -13,25 +13,25 @@ const Lista = () => {
     return (
         <List>
 
-            <NavLink to="/dashboard/parte-1">
+            <NavLink to="/dashboard/usuarios">
                 <ListItem
                     button
                 >
                     <ListItemIcon>
                         <AddCircle />
                     </ListItemIcon>
-                    <ListItemText primary="dfwerfwe" />
+                    <ListItemText primary="Usuarios" />
                 </ListItem>
             </NavLink>
 
-            <NavLink to="/dashboard/parte-2">
+            <NavLink to="/dashboard/platos">
                 <ListItem
                     button
                 >
                     <ListItemIcon>
                         <AddCircle />
                     </ListItemIcon>
-                    <ListItemText primary="fdefeffefefef" />
+                    <ListItemText primary="Platos" />
                 </ListItem>
             </NavLink>
 
