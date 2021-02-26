@@ -22,6 +22,9 @@ func main() {
 	}))
 
 	routes.UsersRoutes(router)
+	routes.PlatosRoutes(router)
+	routes.MesasRoutes(router)
+	routes.SugerenciasRoutes(router)
 
 	router.Run(":8000")
 

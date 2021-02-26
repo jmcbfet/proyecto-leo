@@ -14,6 +14,15 @@ import DashboardContext from '../../context/dashboard/dashboardContext';
 
 const Usuarios = () => {
 
+    const api = {
+        id_usuario: '',
+        nombre: '',
+        apellido: '',
+        correo: '',
+        password: '',
+        id_rol: 2,
+    }
+
     const formStyles = FormStyles();
     const modalStyles = ModalStyles();
 
@@ -22,17 +31,8 @@ const Usuarios = () => {
 
     const [ modalInsertar, setModalInsertar ] = useState(false);
     const [ modalModificar, setModalModificar ] = useState(false);
-    const [ usuarioSeleccionado, setUsuarioSeleccionado ] = useState({
-        id_usuario: '',
-        nombre: '',
-        apellido: '',
-        correo: '',
-        password: '',
-        id_rol: 2,
-
-    });
-
-    const { id_usuario, nombre, apellido, correo, password, id_rol } = usuarioSeleccionado;
+    const [ agregarUsuario, setAgregarUsuario ] = useState(api)
+    const [ usuarioSeleccionado, setUsuarioSeleccionado ] = useState(api);
 
     const AbrirCerrarModalInsertar = () => {
         setModalInsertar(!modalInsertar);
@@ -44,14 +44,15 @@ const Usuarios = () => {
 
     const UsuarioSeleccionado = (usuario) => {
         AbrirCerrarModalModificar();
-        setUsuarioSeleccionado(usuario)
+        setUsuarioSeleccionado(usuario);
     }
 
     const onSubmitModificar = (e) => {
         e.preventDefault();
 
+        const { id_usuario ,nombre, apellido, correo, password, id_rol } = usuarioSeleccionado;
+
         if (
-            id_usuario.trim === '' ||
             nombre.trim === ''     ||
             apellido.trim === ''   ||
             correo.trim === ''     ||
@@ -65,10 +66,12 @@ const Usuarios = () => {
             console.log('mostrar otra alerta');
         }
 
-    } 
+    }
 
     const onSubmitAgregar = (e) => {
         e.preventDefault();
+
+        const { nombre, apellido, correo, password, id_rol } = agregarUsuario;
         
         if (
             nombre.trim === ''     ||
@@ -80,13 +83,20 @@ const Usuarios = () => {
             console.log('no haga nada mostrar una alerta')
         } else {
             const datos = { nombre, apellido, correo, password, id_rol }
-            console.log(datos);
             AgregarUsuario(datos);
+            setAgregarUsuario(api);
             console.log('mostrar otra alerta');
         }
     }
 
-    const onChange = (e) => {
+    const onChangeAgregar = (e) => {
+        setAgregarUsuario({
+            ...agregarUsuario,
+            [e.target.name] : e.target.value
+        })
+    }
+
+    const onChangeModificar = (e) => {
         setUsuarioSeleccionado({
             ...usuarioSeleccionado,
             [e.target.name] : e.target.value
@@ -128,8 +138,8 @@ const Usuarios = () => {
                     name="nombre"
                     label="Nombre"
                     variant="outlined"
-                    value={nombre}
-                    onChange={onChange}
+                    value={agregarUsuario.nombre}
+                    onChange={onChangeAgregar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -137,8 +147,8 @@ const Usuarios = () => {
                     name="apellido"
                     label="Apellido"
                     variant="outlined"
-                    value={apellido}
-                    onChange={onChange}
+                    value={agregarUsuario.apellido}
+                    onChange={onChangeAgregar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -146,8 +156,8 @@ const Usuarios = () => {
                     name="correo"
                     label="Correo"
                     variant="outlined"
-                    value={correo}
-                    onChange={onChange}
+                    value={agregarUsuario.correo}
+                    onChange={onChangeAgregar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -155,8 +165,8 @@ const Usuarios = () => {
                     name="password"
                     label="Contraseña"
                     variant="outlined"
-                    value={password}
-                    onChange={onChange}
+                    value={agregarUsuario.password}
+                    onChange={onChangeAgregar}
                 />
                 <Select
                     className={formStyles.input}
@@ -164,8 +174,8 @@ const Usuarios = () => {
                     name="id_rol"
                     label="Rol"
                     variant="outlined"
-                    value={id_rol}
-                    onChange={onChange}
+                    value={agregarUsuario.id_rol}
+                    onChange={onChangeAgregar}
                 >
                     <MenuItem value={1}>Admin</MenuItem>
                     <MenuItem value={2}>User</MenuItem> 
@@ -197,7 +207,7 @@ const Usuarios = () => {
                     label="Nombre"
                     variant="outlined"
                     value={usuarioSeleccionado && usuarioSeleccionado.nombre}
-                    onChange={onChange}
+                    onChange={onChangeModificar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -206,7 +216,7 @@ const Usuarios = () => {
                     label="Apellido"
                     variant="outlined"
                     value={usuarioSeleccionado && usuarioSeleccionado.apellido}
-                    onChange={onChange}
+                    onChange={onChangeModificar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -215,7 +225,7 @@ const Usuarios = () => {
                     label="Correo"
                     variant="outlined"
                     value={usuarioSeleccionado && usuarioSeleccionado.correo}
-                    onChange={onChange}
+                    onChange={onChangeModificar}
                 />
                 <TextField
                     className={formStyles.input}
@@ -224,7 +234,7 @@ const Usuarios = () => {
                     label="Contraseña"
                     variant="outlined"
                     value={usuarioSeleccionado && usuarioSeleccionado.password}
-                    onChange={onChange}
+                    onChange={onChangeModificar}
                 />
                 <Select
                     className={formStyles.input}
@@ -233,7 +243,7 @@ const Usuarios = () => {
                     label="Rol"
                     variant="outlined"
                     value={usuarioSeleccionado && usuarioSeleccionado.id_rol}
-                    onChange={onChange}
+                    onChange={onChangeModificar}
                 >
                     <MenuItem value={1}>Admin</MenuItem>
                     <MenuItem value={2}>User</MenuItem> 
@@ -257,9 +267,12 @@ const Usuarios = () => {
         <div>
             <Button
                 onClick={AbrirCerrarModalInsertar}
+                color="primary"
+                variant="outlined"
             >
                 Agregar usuario
             </Button>
+            <br />
             <MaterialTable
                 columns={columnas}
                 data={usuarios}

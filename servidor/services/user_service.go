@@ -144,7 +144,7 @@ func AgregarUsuario(c *gin.Context) {
 		return
 	}
 
-	_, err3 := database.DBClient.Exec("INSERT INTO usuarios(nombre,apellido,correo,password,id_rol) VALUES (?,?,?,?,?)",
+	result, err3 := database.DBClient.Exec("INSERT INTO usuarios(nombre,apellido,correo,password,id_rol) VALUES (?,?,?,?,?)",
 		reqBody.Nombre,
 		reqBody.Apellido,
 		reqBody.Correo,
@@ -156,8 +156,15 @@ func AgregarUsuario(c *gin.Context) {
 		fmt.Println(err3.Error())
 	}
 
+	lastId, err4 := result.LastInsertId()
+
+	if err4 != nil {
+		fmt.Println(err4.Error())
+	}
+
 	c.JSON(200, gin.H{
 		"msg": "usuario agregado",
+		"id_usuario": lastId,
 	})
 
 }

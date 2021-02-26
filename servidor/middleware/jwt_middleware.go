@@ -22,7 +22,7 @@ func JWTAuth() gin.HandlerFunc {
 			c.JSON(401, gin.H{
 				"msg": "No hay token",
 			})
-			return
+			c.Abort()
 
 		} else {
 

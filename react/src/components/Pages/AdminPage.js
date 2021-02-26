@@ -18,6 +18,8 @@ import AuthContext from '../../context/auth/authContext';
 import DashboardContext from '../../context/dashboard/dashboardContext';
 import Usuarios from '../Dashboard/Usuarios';
 import Platos from '../Dashboard/Platos';
+import Mesas from '../Dashboard/Mesas';
+import Sugerencias from '../Dashboard/Sugerencias';
 
 const AdminPage = (props) => {
 
@@ -25,7 +27,7 @@ const AdminPage = (props) => {
     const { CerrarSesion, usuario, UsuarioAutenticado } = authContext;
 
     const dashboardContext = useContext(DashboardContext);
-    const { ListarUsuarios } = dashboardContext;
+    const { ListarMesas, ListarPlatos, ListarUsuarios, ListarSugerencias } = dashboardContext;
 
     const { window } = props;
     const classes = DashboardStyles();
@@ -34,6 +36,9 @@ const AdminPage = (props) => {
     
     useEffect(() => {
         ListarUsuarios();
+        ListarMesas();
+        ListarPlatos();
+        ListarSugerencias();
         UsuarioAutenticado();
     }, [])
 
@@ -110,6 +115,8 @@ const AdminPage = (props) => {
                     <div className={classes.toolbar} />
                     <Route exact path='/dashboard/usuarios' component={Usuarios} />
                     <Route exact path='/dashboard/platos' component={Platos} />
+                    <Route exact path='/dashboard/mesas' component={Mesas} />
+                    <Route exact path='/dashboard/sugerencias' component={Sugerencias} />
                 </main>
             </div>
         </Router>
