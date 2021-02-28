@@ -20,6 +20,15 @@ import {
     ELIMINAR_SUGERENCIA,
     AGREGAR_SUGERENCIA,
 
+    LISTAR_COMENTARIOS,
+    MODIFICAR_COMENTARIO,
+    ELIMINAR_COMENTARIO,
+
+    LISTAR_GALERIA,
+    MODIFICAR_GALERIA,
+    ELIMINAR_GALERIA,
+    AGREGAR_GALERIA
+
 } from '../../types';
 
 export default (state, action) => {
@@ -52,6 +61,18 @@ export default (state, action) => {
             return {
                 ...state,
                 sugerencias: action.payload
+            }
+        
+        case LISTAR_COMENTARIOS:
+            return {
+                ...state,
+                comentarios: action.payload
+            }
+
+        case LISTAR_GALERIA:
+            return {
+                ...state,
+                galeria: action.payload
             }
 
         case MODIFICAR_USUARIO:
@@ -101,6 +122,28 @@ export default (state, action) => {
                     }
                 : sugerencia )
             }
+
+        case MODIFICAR_COMENTARIO:
+            return {
+                ...state,
+                comentarios: state.comentarios.map(comentario => comentario.id_comentario === action.payload.id_comentario ? 
+                    {   ...comentario,
+                        comentario: action.payload.comentario
+                    }
+                : comentario)
+            }
+
+        case MODIFICAR_GALERIA:
+            return {
+                ...state,
+                galeria: state.galeria.map(galeria => galeria.id_galeria === action.payload.id_galeria ?
+                    {   ...galeria,
+                        src: action.payload.src,
+                        altText: action.payload.altText,
+                        caption: action.payload.caption
+                    }
+                : galeria)
+            }
         
         case AGREGAR_USUARIO:
             return {
@@ -126,6 +169,12 @@ export default (state, action) => {
                 sugerencias: [...state.sugerencias, action.payload]
             }
 
+        case AGREGAR_GALERIA:
+            return {
+                ...state,
+                galeria: [...state.galeria, action.payload]
+            }
+
         case ELIMINAR_USUARIO:
             return {
                 ...state,
@@ -148,6 +197,18 @@ export default (state, action) => {
             return {
                 ...state,
                 sugerencias: state.sugerencias.filter(sugerencia => sugerencia.id_sugerencia !== action.payload)
+            }
+
+        case ELIMINAR_COMENTARIO:
+            return {
+                ...state,
+                comentarios: state.comentarios.filter(comentario => comentario.id_comentario !== action.payload)
+            }
+
+        case ELIMINAR_GALERIA:
+            return {
+                ...state,
+                galeria: state.galeria.filter(galeria => galeria.id_galeria !== action.payload)
             }
 
 

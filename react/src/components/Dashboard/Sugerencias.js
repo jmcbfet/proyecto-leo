@@ -109,7 +109,7 @@ const Sugerencias = () => {
 
     const bodyAgregar = (
         <div className={modalStyles.modal}>
-            <h3>Nueva mesa</h3>
+            <h3>Nueva sugerencia</h3>
             <form 
                 onSubmit={onSubmitAgregar}
             >
@@ -147,7 +147,7 @@ const Sugerencias = () => {
 
     const bodyModificar = (
         <div className={modalStyles.modal}>
-            <h3>Modificar mesa</h3>
+            <h3>Modificar sugerencia</h3>
             <form 
                 onSubmit={onSubmitModificar}
             >

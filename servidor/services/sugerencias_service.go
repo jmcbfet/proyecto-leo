@@ -117,7 +117,7 @@ func AgregarSugerencia(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"msg": "Sugerencia agregado",
+		"msg": "Sugerencia agregada",
 		"id_sugerencia": lastId,
 	})
 

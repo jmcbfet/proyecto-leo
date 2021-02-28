@@ -20,6 +20,8 @@ import Usuarios from '../Dashboard/Usuarios';
 import Platos from '../Dashboard/Platos';
 import Mesas from '../Dashboard/Mesas';
 import Sugerencias from '../Dashboard/Sugerencias';
+import Comentarios from '../Dashboard/Comentarios';
+import Galeria from '../Dashboard/Galeria';
 
 const AdminPage = (props) => {
 
@@ -27,19 +29,21 @@ const AdminPage = (props) => {
     const { CerrarSesion, usuario, UsuarioAutenticado } = authContext;
 
     const dashboardContext = useContext(DashboardContext);
-    const { ListarMesas, ListarPlatos, ListarUsuarios, ListarSugerencias } = dashboardContext;
+    const { ListarMesas, ListarPlatos, ListarUsuarios, ListarSugerencias, ListarComentarios, ListarGaleria } = dashboardContext;
 
     const { window } = props;
     const classes = DashboardStyles();
     const theme = useTheme();
     const [ mobileOpen, setMobileOpen ] = useState(false);
-    
+
     useEffect(() => {
-        ListarUsuarios();
+        UsuarioAutenticado();
         ListarMesas();
         ListarPlatos();
+        ListarUsuarios();
         ListarSugerencias();
-        UsuarioAutenticado();
+        ListarComentarios();
+        ListarGaleria();
     }, [])
 
     const handleDrawerToggle = () => {
@@ -117,6 +121,8 @@ const AdminPage = (props) => {
                     <Route exact path='/dashboard/platos' component={Platos} />
                     <Route exact path='/dashboard/mesas' component={Mesas} />
                     <Route exact path='/dashboard/sugerencias' component={Sugerencias} />
+                    <Route exact path='/dashboard/comentarios' component={Comentarios} />
+                    <Route exact path='/dashboard/galeria' component={Galeria} />
                 </main>
             </div>
         </Router>

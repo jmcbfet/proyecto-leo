@@ -57,6 +57,28 @@ const Lista = () => {
                 </ListItem>
             </NavLink>
 
+            <NavLink to="/dashboard/comentarios">
+                <ListItem
+                    button
+                >
+                    <ListItemIcon>
+                        <AddCircle />
+                    </ListItemIcon>
+                    <ListItemText primary="Comentarios" />
+                </ListItem>
+            </NavLink>
+
+            <NavLink to="/dashboard/galeria">
+                <ListItem
+                    button
+                >
+                    <ListItemIcon>
+                        <AddCircle />
+                    </ListItemIcon>
+                    <ListItemText primary="Galeria" />
+                </ListItem>
+            </NavLink>
+
         </List>
     )
 }

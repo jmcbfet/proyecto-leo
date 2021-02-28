@@ -19,6 +19,7 @@ const AuthState = (props) => {
         auth: null,
         usuario: null,
         rol: null,
+        token: localStorage.getItem('token')
     }
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
@@ -61,7 +62,6 @@ const AuthState = (props) => {
         
         try {
             const usuario = await ClienteAxios.get('/user/getdata');
-            console.log(usuario.data.id_rol);
             dispatch({
                 type: OBTENER_USUARIO,
                 payload: usuario.data

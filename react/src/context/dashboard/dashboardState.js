@@ -24,6 +24,15 @@ import {
     ELIMINAR_SUGERENCIA,
     AGREGAR_SUGERENCIA,
 
+    LISTAR_COMENTARIOS,
+    MODIFICAR_COMENTARIO,
+    ELIMINAR_COMENTARIO,
+
+    LISTAR_GALERIA,
+    MODIFICAR_GALERIA,
+    ELIMINAR_GALERIA,
+    AGREGAR_GALERIA
+
 } from '../../types';
 import tokenAuth from '../../config/token';
 
@@ -34,6 +43,8 @@ const DashboardState = (props) => {
         platos: null,
         mesas: null,
         sugerencias: null,
+        comentarios: null,
+        galeria: null,
         msg: null
     }
 
@@ -304,6 +315,114 @@ const DashboardState = (props) => {
         }
     }
 
+    const ListarComentarios = async () => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const comentarios = await ClienteAxios.get('/comentarios/find');
+            dispatch({
+                type: LISTAR_COMENTARIOS,
+                payload: comentarios.data
+            })
+        } catch (error) {
+           console.log(error.response) 
+        }
+    }
+
+    const ModificarComentario = async (id, datos) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            datos.id_comentario = id;
+            const comentario = await ClienteAxios.put(`/comentarios/update/${id}`, datos);
+            dispatch({
+                type: MODIFICAR_COMENTARIO,
+                payload: datos
+            });
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const EliminarComentario = async (id) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const comentario = ClienteAxios.delete(`/comentarios/delete/${id}`)
+            dispatch({
+                type: ELIMINAR_COMENTARIO,
+                payload: id
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const ListarGaleria = async () => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const galeria = await ClienteAxios.get('/galeria/find');
+            dispatch({
+                type: LISTAR_GALERIA,
+                payload: galeria.data
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const AgregarGaleria = async (datos) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const galeria = await ClienteAxios.post('/galeria/add', datos)
+            datos.id_galeria = galeria.data.id_galeria;
+            dispatch({
+                type: AGREGAR_GALERIA,
+                payload: datos
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const ModificarGaleria = async (id, datos) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            datos.id_galeria = id
+            const galeria = await ClienteAxios.put(`/galeria/update/${id}`, datos)
+            dispatch({
+                type: MODIFICAR_GALERIA,
+                payload: datos
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const EliminarGaleria = async (id) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const galeria = await ClienteAxios.delete(`/galeria/delete/${id}`);
+            dispatch({
+                type: ELIMINAR_GALERIA,
+                payload: id
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
     return (
         <DashboardContext.Provider
             value={{
@@ -311,6 +430,8 @@ const DashboardState = (props) => {
                 platos: state.platos,
                 mesas: state.mesas,
                 sugerencias: state.sugerencias,
+                comentarios: state.comentarios,
+                galeria: state.galeria,
                 msg: state.msg,
 
                 ListarUsuarios,
@@ -332,6 +453,15 @@ const DashboardState = (props) => {
                 AgregarSugerencia,
                 ModificarSugerencia,
                 EliminarSugerencia,
+
+                ListarComentarios,
+                ModificarComentario,
+                EliminarComentario,
+
+                ListarGaleria,
+                AgregarGaleria,
+                ModificarGaleria,
+                EliminarGaleria
 
             }}
         >
