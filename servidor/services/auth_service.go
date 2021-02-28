@@ -28,7 +28,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	err := database.DBClient.Get(&reqBody, "SELECT nombre,apellido,correo,password,id_rol FROM usuarios WHERE correo = ? AND password = ?",
+	err := database.DBClient.Get(&reqBody, "SELECT id_usuario,nombre,apellido,correo,password,id_rol FROM usuarios WHERE correo = ? AND password = ?",
 		reqBody.Correo,
 		reqBody.Password,
 	)

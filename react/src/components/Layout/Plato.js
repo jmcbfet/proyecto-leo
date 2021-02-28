@@ -24,10 +24,10 @@ const Plato = ({ plato }) => {
         comentario: ''
     }
 
-    const [ modalComentarios, setModalComentarios ] = useState(false);
-    const [ modalInsertarComentario, setModalInsertarComentario ] = useState(false);
+    const [modalComentarios, setModalComentarios] = useState(false);
+    const [modalInsertarComentario, setModalInsertarComentario] = useState(false);
 
-    const [ nuevoComentario, setNuevoComentario ] = useState(api);
+    const [nuevoComentario, setNuevoComentario] = useState(api);
 
     const usuariosContext = useContext(UsuariosContext);
     const { AgregarComentario, ConsultarComentarios, comentarios } = usuariosContext;
@@ -57,14 +57,58 @@ const Plato = ({ plato }) => {
         const { comentario } = nuevoComentario;
 
         if (
-            comentario === '' 
+            comentario === ''
         ) {
             console.log('no haga nada');
         } else {
             const datos = { id_plato: plato.id_plato, comentario }
             AgregarComentario(datos);
+            setNuevoComentario(api);
         }
     }
+
+    const bodyAgregarComentario = (
+        <div className={modalStyles.modal}>
+            <h3>Nuevo Comentario</h3>
+            <form
+                onSubmit={onSubmit}
+            >
+                <TextField
+                    className={formStyles.input}
+                    id="comentario"
+                    name="comentario"
+                    label="Comentario"
+                    variant="outlined"
+                    value={nuevoComentario.comentario}
+                    onChange={onChange}
+                />
+
+                <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={formStyles.buttonSubmit}
+                >
+                    Agregar Comentario
+                        </Button>
+            </form>
+        </div>
+    )
+
+    const bodyComentarios = (
+        <div className={modalStyles.modal}>
+            <h3>Comentarios</h3>
+            {comentarios ?
+                comentarios.map(comentario => {
+                    return (
+                        <ul>
+                            <li>{comentario.comentario}</li>
+                        </ul>
+                    );
+                })
+                : <p>No hay comentarios</p>}
+        </div>
+    )
 
     return (
         <div>
@@ -109,49 +153,14 @@ const Plato = ({ plato }) => {
                 open={modalInsertarComentario}
                 onClose={AbrirCerrarModalInsertar}
             >
-                <div className={modalStyles.modal}>
-                    <h3>Nuevo Comentario</h3>
-                    <form
-                        onSubmit={onSubmit}
-                    >
-                        <TextField
-                            className={formStyles.input}
-                            id="comentario"
-                            name="comentario"
-                            label="Comentario"
-                            variant="outlined"
-                            value={nuevoComentario.comentario}
-                            onChange={onChange}
-                        />
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            className={formStyles.buttonSubmit}
-                        >
-                            Agregar Comentario
-                    </Button>
-                    </form>
-                </div>
+                {bodyAgregarComentario}
             </Modal>
 
             <Modal
                 open={modalComentarios}
                 onClose={AbrirCerrarModal}
             >
-                <div className={modalStyles.modal}>
-                    <h3>Comentarios</h3>
-                    {comentarios ? 
-                        comentarios.map(comentario => {
-                            return (
-                                <ul>
-                                    <li>{comentario.comentario}</li>
-                                </ul>
-                            );
-                        })
-                    : <p>No hay comentarios</p>}
-                </div>
+                {bodyComentarios}
             </Modal>
 
         </div>

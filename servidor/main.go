@@ -27,6 +27,8 @@ func main() {
 	routes.SugerenciasRoutes(router)
 	routes.ComentariosRoutes(router)
 	routes.GaleriaRoutes(router)
+	routes.ReservasRoutes(router)
+	routes.CuentasRoutes(router)
 
 	router.Run(":8000")
 

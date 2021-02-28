@@ -4,8 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { Button } from '@material-ui/core';
 import Navbar from '../Layout/Navbar';
-import Slider from '../Layout/Slider';
 import Footer from '../Layout/Footer';
+import Slider from '../Layout/Slider';
 
 const UsuarioPage = () => {
 

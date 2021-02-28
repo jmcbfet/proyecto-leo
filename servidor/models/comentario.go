@@ -8,6 +8,6 @@ type Comentario struct {
 }
 
 type AgregarComentario struct {
-	IdPlato int `json:"id_plato" db:"id_plato"`
-	Comentario string `json:"comentario" db:"comentario"`
+	IdPlato 	int 	`json:"id_plato" db:"id_plato"`
+	Comentario 	string 	`json:"comentario" db:"comentario"`
 }
