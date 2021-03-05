@@ -16,13 +16,155 @@ func ListarCuentas(c *gin.Context) {
 
 	var cuentas []models.Cuenta
 
-	err := database.DBClient.Select(&cuentas, "SELECT c.id_cuenta, m.descripcion, p.nombre FROM cuentas c, mesas m, platos p WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato")
+	err := database.DBClient.Select(&cuentas, "SELECT c.id_cuenta, u.id_usuario, m.descripcion, p.nombre, p.precio, u.apellido FROM cuentas c, mesas m, platos p, usuarios u WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato AND c.id_usuario = u.id_usuario")
 
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	c.JSON(200, cuentas)
+
+}
+
+func ListarCuentaPorUsuario(c *gin.Context) {
+
+	database.DBConnection()
+
+	idUsuarioStr := c.Param("id_usuario")
+	idUsuario, err := strconv.Atoi(idUsuarioStr)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	idMesaStr := c.Param("id_mesa")
+	idMesa, err2 := strconv.Atoi(idMesaStr)
+
+	if err2 != nil {
+		fmt.Println(err2.Error())
+	}
+
+	fmt.Println(idUsuario)
+	fmt.Println(idMesa)
+
+	var cuentas []models.Cuenta
+
+	err3 := database.DBClient.Select(&cuentas, "SELECT c.id_cuenta, m.descripcion, p.nombre, p.precio, u.apellido FROM cuentas c, mesas m, platos p, usuarios u WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato AND c.id_usuario = u.id_usuario AND u.id_usuario = ? AND c.id_mesa = ?",
+		idUsuario,
+		idMesa,
+	)
+
+	if err != nil {
+		fmt.Println(err3.Error())
+	}
+
+	c.JSON(200, cuentas)
+
+}
+
+func ConsultaParaActualizar(c *gin.Context) {
+
+	database.DBConnection()
+
+	idPlatoStr := c.Param("id_plato")
+	idPlato, err := strconv.Atoi(idPlatoStr)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	var cuentas []models.Cuenta
+
+	err2 := database.DBClient.Select(&cuentas, "SELECT c.id_cuenta, m.descripcion, p.nombre, p.precio, u.apellido FROM cuentas c, mesas m, platos p, usuarios u WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato AND c.id_usuario = u.id_usuario AND p.id_plato = ? ORDER BY c.id_cuenta DESC LIMIT 1",
+		idPlato,
+	)
+
+	if err2 != nil {
+		fmt.Println(err2.Error())
+	}
+
+	c.JSON(200, cuentas)
+
+}
+
+func ConsultarTotalReserva(c *gin.Context) {
+
+	database.DBConnection()
+
+	idUsuarioStr := c.Param("id_usuario")
+	idUsuario, err := strconv.Atoi(idUsuarioStr)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	idMesaStr := c.Param("id_mesa")
+	idMesa, err2 := strconv.Atoi(idMesaStr)
+
+	if err2 != nil {
+		fmt.Println(err2.Error())
+	}
+
+	fmt.Println(idUsuario)
+	fmt.Println(idMesa)
+
+	var total []models.TotalReserva
+
+	err3 := database.DBClient.Select(&total, "SELECT SUM(p.precio) as total FROM cuentas c, mesas m, platos p, usuarios u WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato AND c.id_usuario = u.id_usuario AND u.id_usuario = ? AND c.id_mesa = ?",
+		idUsuario,
+		idMesa,
+	)
+
+	if err3 != nil {
+		fmt.Println(err3.Error())
+	}
+
+	c.JSON(200, total)
+
+}
+
+func ConsultarPrecioPorPlatoReserva(c *gin.Context) {
+
+	database.DBConnection()
+
+	idUsuarioStr := c.Param("id_usuario")
+	idUsuario, err := strconv.Atoi(idUsuarioStr)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	idMesaStr := c.Param("id_mesa")
+	idMesa, err2 := strconv.Atoi(idMesaStr)
+
+	if err2 != nil {
+		fmt.Println(err2.Error())
+	}
+
+	idCuentaStr := c.Param("id_cuenta")
+	idCuenta, err3 := strconv.Atoi(idCuentaStr)
+
+	if err3 != nil {
+		fmt.Println(err3.Error())
+	}
+
+	fmt.Println(idUsuario)
+	fmt.Println(idMesa)
+	fmt.Println(idCuenta)
+
+	var total []models.TotalReserva
+
+	err4 := database.DBClient.Select(&total, "SELECT p.precio as total FROM cuentas c, mesas m, platos p, usuarios u WHERE c.id_mesa = m.id_mesa AND c.id_plato = p.id_plato AND c.id_usuario = u.id_usuario AND u.id_usuario = ? AND c.id_mesa = ? AND c.id_cuenta = ?",
+		idUsuario,
+		idMesa,
+		idCuenta,
+	)
+
+	if err4 != nil {
+		fmt.Println(err4.Error())
+	}
+
+	c.JSON(200, total)
 
 }
 
@@ -100,10 +242,11 @@ func AgregarCuenta(c *gin.Context) {
 		})
 		return
 	}
-
-	result, err2 := database.DBClient.Exec("INSERT INTO cuentas(id_mesa,id_plato) VALUES (?,?)",
+	
+	result, err2 := database.DBClient.Exec("INSERT INTO cuentas(id_mesa,id_plato,id_usuario) VALUES (?,?,?)",
 		reqBody.IdMesa,
 		reqBody.IdPlato,
+		reqBody.IdUsuario,
 	)
 
 	if err2 != nil {
@@ -118,7 +261,8 @@ func AgregarCuenta(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"msg": "cuenta agregada",
-		"id_mesa": lastId,
+		"id_cuenta": lastId,
 	})
+	
 
 }

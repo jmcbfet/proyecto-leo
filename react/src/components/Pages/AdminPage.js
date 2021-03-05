@@ -6,7 +6,6 @@ import {
     Hidden,
     IconButton,
     Toolbar,
-    Typography,
     Button
 } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
@@ -22,6 +21,7 @@ import Mesas from '../Dashboard/Mesas';
 import Sugerencias from '../Dashboard/Sugerencias';
 import Comentarios from '../Dashboard/Comentarios';
 import Galeria from '../Dashboard/Galeria';
+import Cuentas from '../Dashboard/Cuentas';
 
 const AdminPage = (props) => {
 
@@ -67,12 +67,6 @@ const AdminPage = (props) => {
                         >
                             <Menu />
                         </IconButton>
-                        {usuario ?
-                            <Typography variant="h6" noWrap>
-                                {usuario.nombre} {usuario.apellido}
-                            </Typography>
-                        : null
-                        }
                         <div className={classes.offset}></div>
                         <Button 
                             variant="text" 
@@ -123,6 +117,7 @@ const AdminPage = (props) => {
                     <Route exact path='/dashboard/sugerencias' component={Sugerencias} />
                     <Route exact path='/dashboard/comentarios' component={Comentarios} />
                     <Route exact path='/dashboard/galeria' component={Galeria} />
+                    <Route exact path='/dashboard/cuentas' component={Cuentas} />
                 </main>
             </div>
         </Router>

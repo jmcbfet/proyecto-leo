@@ -31,7 +31,12 @@ import {
     LISTAR_GALERIA,
     MODIFICAR_GALERIA,
     ELIMINAR_GALERIA,
-    AGREGAR_GALERIA
+    AGREGAR_GALERIA,
+
+    LISTAR_CUENTAS,
+    MODIFICAR_CUENTA,
+    ELIMINAR_CUENTA,
+    AGREGAR_CUENTA
 
 } from '../../types';
 import tokenAuth from '../../config/token';
@@ -45,6 +50,7 @@ const DashboardState = (props) => {
         sugerencias: null,
         comentarios: null,
         galeria: null,
+        cuentas: null,
         msg: null
     }
 
@@ -56,7 +62,6 @@ const DashboardState = (props) => {
 
         try {
             const usuarios = await ClienteAxios.get('/user/find');
-            console.log(usuarios.data);
             dispatch({
                 type: LISTAR_USUARIOS,
                 payload: usuarios.data
@@ -423,6 +428,70 @@ const DashboardState = (props) => {
         }
     }
 
+    const ListarCuentas = async () => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const cuentas = await ClienteAxios.get('/cuentas/find');
+            console.log(cuentas.data);
+            dispatch({
+                type: LISTAR_CUENTAS,
+                payload: cuentas.data
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const AgregarCuenta = async (datos) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const cuenta = await ClienteAxios.post('/cuentas/add', datos)
+            datos.id_cuenta = cuenta.data.id_cuenta;
+            dispatch({
+                type: AGREGAR_CUENTA,
+                payload: datos
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const ModificarCuenta = async (id, datos) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            datos.id_cuenta = id
+            const cuenta = await ClienteAxios.put(`/cuentas/update/${id}`, datos)
+            console.log(datos);
+            dispatch({
+                type: MODIFICAR_CUENTA,
+                payload: datos
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
+    const EliminarCuenta = async (id) => {
+        const token = localStorage.getItem('token');
+        if(token) tokenAuth(token);
+
+        try {
+            const galeria = await ClienteAxios.delete(`/cuentas/delete/${id}`);
+            dispatch({
+                type: ELIMINAR_CUENTA,
+                payload: id
+            })
+        } catch (error) {
+            console.log(error.response);
+        }
+    }
+
     return (
         <DashboardContext.Provider
             value={{
@@ -432,6 +501,7 @@ const DashboardState = (props) => {
                 sugerencias: state.sugerencias,
                 comentarios: state.comentarios,
                 galeria: state.galeria,
+                cuentas: state.cuentas,
                 msg: state.msg,
 
                 ListarUsuarios,
@@ -461,7 +531,12 @@ const DashboardState = (props) => {
                 ListarGaleria,
                 AgregarGaleria,
                 ModificarGaleria,
-                EliminarGaleria
+                EliminarGaleria,
+
+                ListarCuentas,
+                AgregarCuenta,
+                ModificarCuenta,
+                EliminarCuenta
 
             }}
         >

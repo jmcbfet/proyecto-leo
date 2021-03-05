@@ -16,7 +16,23 @@ func ListarMesas(c *gin.Context) {
 
 	var mesas []models.Mesa
 
-	err := database.DBClient.Select(&mesas, "SELECT id_mesa, descripcion FROM mesas")
+	err := database.DBClient.Select(&mesas, "SELECT id_mesa, descripcion, disponible FROM mesas")
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	c.JSON(200, mesas)
+
+}
+
+func ListarMesasDisponibles(c *gin.Context) {
+
+	database.DBConnection()
+
+	var mesas []models.Mesa
+
+	err := database.DBClient.Select(&mesas, "SELECT id_mesa, descripcion FROM mesas WHERE disponible = 1")
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -70,8 +86,9 @@ func ActualizarMesa(c *gin.Context) {
 		})
 	}
 
-	res, err3 := database.DBClient.Exec("UPDATE mesas SET descripcion = ? WHERE id_mesa = ?",
+	res, err3 := database.DBClient.Exec("UPDATE mesas SET descripcion = ?, disponible = ? WHERE id_mesa = ?",
 		reqBody.Descripcion,
+		reqBody.Disponible,
 		id,
 	)
 
@@ -100,7 +117,7 @@ func AgregarMesa(c *gin.Context) {
 		return
 	}
 
-	result, err2 := database.DBClient.Exec("INSERT INTO mesas(descripcion) VALUES (?)",
+	result, err2 := database.DBClient.Exec("INSERT INTO mesas(descripcion,disponible) VALUES (?,1)",
 		reqBody.Descripcion,
 	)
 

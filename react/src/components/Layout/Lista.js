@@ -79,6 +79,17 @@ const Lista = () => {
                 </ListItem>
             </NavLink>
 
+            <NavLink to="/dashboard/cuentas">
+                <ListItem
+                    button
+                >
+                    <ListItemIcon>
+                        <AddCircle />
+                    </ListItemIcon>
+                    <ListItemText primary="Cuentas" />
+                </ListItem>
+            </NavLink>
+
         </List>
     )
 }

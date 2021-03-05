@@ -19,8 +19,8 @@ const CartaPage = () => {
                 platos.map(plato => {
                     return (
                         <Plato 
-                            plato={plato}
                             key={plato.id_plato}
+                            plato={plato}
                         />
                     )
                 })

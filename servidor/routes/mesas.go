@@ -11,7 +11,8 @@ func MesasRoutes(route *gin.Engine) {
 
 	userGroup := route.Group("/mesas")
 	{
-		userGroup.GET("/find", middleware.JWTAuth(), services.ListarMesas)
+		userGroup.GET("/find", services.ListarMesas)
+		userGroup.GET("/find/disponibles", middleware.JWTAuth(), services.ListarMesasDisponibles)
 		userGroup.DELETE("/delete/:id", middleware.JWTAuth(), services.EliminarMesa)
 		userGroup.PUT("/update/:id", middleware.JWTAuth(), services.ActualizarMesa)
 		userGroup.POST("/add", middleware.JWTAuth(), services.AgregarMesa)

@@ -1,10 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import MaterialTable from 'material-table';
 import {
     Modal,
     TextField,
     Button,
-    Typography
+    Typography,
+    Select,
+    MenuItem
 } from '@material-ui/core';
 import { ModalStyles } from '../../styles/Modal';
 import { FormStyles } from '../../styles/Form';
@@ -14,7 +16,8 @@ const Mesas = () => {
 
     const api = {
         id_mesa: '',
-        descripcion: ''
+        descripcion: '',
+        disponible: ''
     }
 
     const formStyles = FormStyles();
@@ -38,20 +41,22 @@ const Mesas = () => {
 
     const MesaSeleccionada = (mesa) => {
         AbrirCerrarModalModificar();
+        console.log(mesa)
         setMesaSeleccionado(mesa);
     }
 
     const onSubmitModificar = (e) => {
         e.preventDefault();
 
-        const { id_mesa, descripcion } = mesaSeleccionado;
+        const { id_mesa, descripcion, disponible } = mesaSeleccionado;
 
         if (
-            descripcion.trim === ''      
+            descripcion === '' ||
+            disponible === ''      
         ) {
             console.log('no haga nada mostrar una alerta')
         } else {
-            const datos = { descripcion }
+            const datos = { descripcion, disponible }
             ModificarMesa(id_mesa, datos);
             console.log('mostrar otra alerta');
         }
@@ -97,6 +102,10 @@ const Mesas = () => {
         {
             title: 'Descripcion',
             field: 'descripcion'
+        },
+        {
+            title: 'Disponible',
+            field: 'disponible'
         }
     ]
 
@@ -153,6 +162,18 @@ const Mesas = () => {
                     value={mesaSeleccionado && mesaSeleccionado.descripcion}
                     onChange={onChangeModificar}
                 />
+                <Select
+                    className={formStyles.input}
+                    id="disponible"
+                    name="disponible"
+                    label="Rol"
+                    variant="outlined"
+                    value={mesaSeleccionado && mesaSeleccionado.disponible}
+                    onChange={onChangeModificar}
+                >
+                    <MenuItem value={1}>Disponible</MenuItem>
+                    <MenuItem value={0}>No disponible</MenuItem> 
+                </Select>
                 <div align="right">
                     <Button
                         variant="contained"

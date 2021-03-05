@@ -27,7 +27,12 @@ import {
     LISTAR_GALERIA,
     MODIFICAR_GALERIA,
     ELIMINAR_GALERIA,
-    AGREGAR_GALERIA
+    AGREGAR_GALERIA,
+
+    LISTAR_CUENTAS,
+    MODIFICAR_CUENTA,
+    ELIMINAR_CUENTA,
+    AGREGAR_CUENTA
 
 } from '../../types';
 
@@ -74,6 +79,12 @@ export default (state, action) => {
                 ...state,
                 galeria: action.payload
             }
+        
+        case LISTAR_CUENTAS:
+            return {
+                ...state,
+                cuentas: action.payload
+            }
 
         case MODIFICAR_USUARIO:
             return {
@@ -107,7 +118,8 @@ export default (state, action) => {
                 ...state,
                 mesas: state.mesas.map(mesa => mesa.id_mesa === action.payload.id_mesa ?
                     {   ...mesa,
-                        descripcion: action.payload.descripcion
+                        descripcion: action.payload.descripcion,
+                        disponible: action.payload.disponible
                     }
                 : mesa )
             }
@@ -144,6 +156,17 @@ export default (state, action) => {
                     }
                 : galeria)
             }
+
+        case MODIFICAR_CUENTA:
+            return {
+                ...state,
+                cuentas: state.cuentas.map(cuenta => cuenta.id_cuenta === action.payload.id_cuenta ?
+                    {   ...cuenta,
+                        id_mesa: action.payload.id_mesa,
+                        id_plato: action.payload.id_plato
+                    }
+                : cuenta )
+            }
         
         case AGREGAR_USUARIO:
             return {
@@ -173,6 +196,12 @@ export default (state, action) => {
             return {
                 ...state,
                 galeria: [...state.galeria, action.payload]
+            }
+        
+        case AGREGAR_CUENTA:
+            return {
+                ...state,
+                cuentas: [...state.cuentas, action.payload]
             }
 
         case ELIMINAR_USUARIO:
@@ -209,6 +238,12 @@ export default (state, action) => {
             return {
                 ...state,
                 galeria: state.galeria.filter(galeria => galeria.id_galeria !== action.payload)
+            }
+
+        case ELIMINAR_CUENTA:
+            return {
+                ...state,
+                cuentas: state.cuentas.filter(cuenta => cuenta.id_cuenta !== action.payload)
             }
 
 

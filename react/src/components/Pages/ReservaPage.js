@@ -2,19 +2,19 @@ import React, { useContext, useEffect } from 'react'
 import Navbar from '../Layout/Navbar'
 import Mesa from '../Layout/Mesa';
 import AuthContext from '../../context/auth/authContext';
-import DashboardContext from '../../context/dashboard/dashboardContext';
+import UsuarioContext from '../../context/usuarios/usuariosContext';
 
 const ReservaPage = () => {
 
     const authContext = useContext(AuthContext);
     const { UsuarioAutenticado } = authContext;
 
-    const dashboardContext = useContext(DashboardContext);
-    const { mesas, ListarMesas } = dashboardContext;
+    const usuarioContext = useContext(UsuarioContext);
+    const { mesas, ConsultarMesasDisponibles } = usuarioContext;
 
     useEffect(() => {
         UsuarioAutenticado();
-        ListarMesas();
+        ConsultarMesasDisponibles();
     }, [])
 
     return (
