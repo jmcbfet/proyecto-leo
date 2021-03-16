@@ -19,5 +19,9 @@ func CuentasRoutes(route *gin.Engine) {
 		userGroup.DELETE("/delete/:id", services.EliminarCuenta)
 		userGroup.PUT("/update/:id", services.ActualizarCuenta)
 		userGroup.POST("/add", services.AgregarCuenta)
+
+		userGroup.GET("/grafica/:year/:month", services.CuentaTotalPorAno)
+		userGroup.GET("/listar/anos", services.ListarAnos)
+
 	}
 }

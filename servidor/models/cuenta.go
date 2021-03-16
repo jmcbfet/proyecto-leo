@@ -23,3 +23,11 @@ type ConsultarCuenta struct {
 type TotalReserva struct {
 	Total int `json:"total" db:"total"`
 }
+
+type TotalCuentaMes struct {
+	TotalMes int `json:"total_mes" db:"total_mes"`
+}
+
+type ListarAnos struct {
+	Year int `json:"year" db:"year"`
+}

@@ -36,7 +36,7 @@ import {
     LISTAR_CUENTAS,
     MODIFICAR_CUENTA,
     ELIMINAR_CUENTA,
-    AGREGAR_CUENTA
+    AGREGAR_CUENTA,
 
 } from '../../types';
 import tokenAuth from '../../config/token';

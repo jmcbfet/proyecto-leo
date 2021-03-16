@@ -243,7 +243,7 @@ func AgregarCuenta(c *gin.Context) {
 		return
 	}
 	
-	result, err2 := database.DBClient.Exec("INSERT INTO cuentas(id_mesa,id_plato,id_usuario) VALUES (?,?,?)",
+	result, err2 := database.DBClient.Exec("INSERT INTO cuentas(id_mesa,id_plato,id_usuario,fecha_cuenta) VALUES (?,?,?,NOW())",
 		reqBody.IdMesa,
 		reqBody.IdPlato,
 		reqBody.IdUsuario,
@@ -264,5 +264,54 @@ func AgregarCuenta(c *gin.Context) {
 		"id_cuenta": lastId,
 	})
 	
+
+}
+
+func CuentaTotalPorAno(c *gin.Context) {
+
+	database.DBConnection()
+
+	yearStr := c.Param("year")
+	year, err := strconv.Atoi(yearStr)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	monthStr := c.Param("month")
+	month, err2 := strconv.Atoi(monthStr)
+
+	if err != nil {
+		fmt.Println(err2.Error())
+	}
+
+	var cuentas []models.TotalCuentaMes
+
+	err3 := database.DBClient.Select(&cuentas, "SELECT SUM(p.precio) as total_mes FROM cuentas c, platos p WHERE c.id_plato = p.id_plato AND YEAR(c.fecha_cuenta) = ? AND MONTH(c.fecha_cuenta) = ?",
+		year,
+		month,
+	)
+
+	if err3 != nil {
+		fmt.Println(err.Error())
+	}
+
+	c.JSON(200, cuentas)
+
+}
+
+func ListarAnos(c *gin.Context) {
+
+	database.DBConnection()
+
+	var cuentas []models.ListarAnos
+
+	err := database.DBClient.Select(&cuentas, "SELECT YEAR(fecha_cuenta) as year FROM cuentas GROUP BY YEAR(fecha_cuenta) HAVING COUNT(*) > 1;")
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	c.JSON(200, cuentas)
 
 }
