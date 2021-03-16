@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { TextField, Button } from '@material-ui/core';
 import { FormStyles } from '../../styles/Form';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom'
 import * as yup from 'yup';
 import AuthContext from '../../context/auth/authContext';
 
@@ -12,6 +13,7 @@ const Registro = () => {
     const { RegistrarUsuario } = authContext;
 
     const styles = FormStyles();
+    const history = useHistory();
 
     const formValidation = yup.object({
         nombre:   yup.string().required("El nombre es obligatorio"),
@@ -34,6 +36,7 @@ const Registro = () => {
         onSubmit: (values) => {
             const json = JSON.stringify(values)
             RegistrarUsuario(json);
+            history.push("/login")
         }
     });
 

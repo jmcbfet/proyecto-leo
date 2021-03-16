@@ -4,7 +4,6 @@ import { FormStyles } from '../../styles/Form';
 import Login from '../auth/Login';
 import AuthContext from '../../context/auth/authContext';
 import { useHistory } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
 
 const LoginPage = () => {
 
@@ -29,7 +28,6 @@ const LoginPage = () => {
             <Navbar />
             <div className={styles.caja}>
                 <Login />
-                {mensaje ? <Typography>{mensaje}</Typography> : null}
             </div>
         </div>
     );

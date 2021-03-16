@@ -1,47 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { 
+import React, { useState, useEffect, useContext } from 'react';
+import { Line } from 'react-chartjs-2'
+import {
     Select,
     Button,
     MenuItem
 } from '@material-ui/core';
 import { FormStyles } from '../../styles/Form';
-import ClienteAxios from '../../config/axios';
+import clienteAxios from '../../config/axios';
 
 const Cuentas = () => {
 
-    /* TODO: /cuentas/grafica/:year/:month parasarlo al method POST */
-
     let api = {
-        ano: ''
+        year: ''
     }
 
-    let data = []
+    const [ grafica, setGrafica ] = useState(api)
+    const [ chartData, setChartData ] = useState({})
+    const [ data, setData ] = useState([])
 
     const formStyles = FormStyles();
 
-    const [ grafica, setGrafica ] = useState(api) 
-
-    useEffect( async () =>  {
-        for(let mes = 1; mes <= 12; mes++) {
-            console.log(mes)
-            const resultados = await ClienteAxios.get(`/cuentas/grafica/${grafica.ano}/${mes}`)
-            try {
-                console.log(resultados.data)
-            } catch (error) {
-                console.log(error.response.status);
-            }
-        }
-    }, [])
-
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
-        const { ano } = grafica;
+        const { year } = grafica;
 
-        if (ano === '') {
+        if (year === '') {
             console.log("mostar alerta")
+            return
         } else {
-            console.log('a')
+
+            setData([])
+
+            for(let mes = 1; mes <= 12; mes++) {
+                const response = await clienteAxios.post(`/cuentas/grafica/${mes}`, { year: grafica.year })
+                if (response.data == null) {
+                    data.push(0)
+                } else {
+                    data.push(response.data[0].total_mes)
+                }
+                console.log(data)
+            }
+
+            setChartData({
+                labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                datasets: [
+                  {
+                    label: "level of thiccness",
+                    data: data,
+                    backgroundColor: ["rgba(75, 192, 192, 0.6)"],
+                    borderWidth: 4
+                  }
+                ]
+              });
+
         }
     }
 
@@ -59,11 +71,11 @@ const Cuentas = () => {
             >
                 <Select
                     className={formStyles.input}
-                    id="ano"
-                    name="ano"
+                    id="year"
+                    name="year"
                     label="Año"
                     variant="outlined"
-                    value={grafica.ano}
+                    value={grafica.year}
                     onChange={onChange}
                 >
                     <MenuItem value={2021}>2021</MenuItem>
@@ -80,6 +92,11 @@ const Cuentas = () => {
                     </Button>
                 </div>
             </form>
+            <Line 
+                width={600}
+                height={600}
+                data={chartData}
+            />
         </div>
     )
 }

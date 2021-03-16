@@ -74,7 +74,7 @@ const Footer = () => {
                         type="submit"
                         className={formStyles.buttonSubmit}
                     >
-                        Agregar
+                        Enviar Sugerencia
                     </Button>
                 </div>
             </form>

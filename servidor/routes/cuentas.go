@@ -20,7 +20,7 @@ func CuentasRoutes(route *gin.Engine) {
 		userGroup.PUT("/update/:id", services.ActualizarCuenta)
 		userGroup.POST("/add", services.AgregarCuenta)
 
-		userGroup.GET("/grafica/:year/:month", services.CuentaTotalPorAno)
+		userGroup.POST("/grafica/:month", services.CuentaTotalPorAno)
 		userGroup.GET("/listar/anos", services.ListarAnos)
 
 	}

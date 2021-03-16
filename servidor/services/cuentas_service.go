@@ -271,29 +271,34 @@ func CuentaTotalPorAno(c *gin.Context) {
 
 	database.DBConnection()
 
-	yearStr := c.Param("year")
-	year, err := strconv.Atoi(yearStr)
+	var reqBody models.ListarAnos
 
-	if err != nil {
-		fmt.Println(err.Error())
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err.Error(),
+			"msg":   "json no valido",
+		})
+		return
 	}
+
+	fmt.Println(reqBody.Year)
 
 	monthStr := c.Param("month")
 	month, err2 := strconv.Atoi(monthStr)
 
-	if err != nil {
+	if err2 != nil {
 		fmt.Println(err2.Error())
 	}
 
 	var cuentas []models.TotalCuentaMes
 
 	err3 := database.DBClient.Select(&cuentas, "SELECT SUM(p.precio) as total_mes FROM cuentas c, platos p WHERE c.id_plato = p.id_plato AND YEAR(c.fecha_cuenta) = ? AND MONTH(c.fecha_cuenta) = ?",
-		year,
+		reqBody.Year,
 		month,
 	)
 
 	if err3 != nil {
-		fmt.Println(err.Error())
+		fmt.Println(err3.Error())
 	}
 
 	c.JSON(200, cuentas)

@@ -40,6 +40,7 @@ import {
 
 } from '../../types';
 import tokenAuth from '../../config/token';
+import clienteAxios from '../../config/axios';
 
 const DashboardState = (props) => {
 
@@ -536,7 +537,7 @@ const DashboardState = (props) => {
                 ListarCuentas,
                 AgregarCuenta,
                 ModificarCuenta,
-                EliminarCuenta
+                EliminarCuenta,
 
             }}
         >
