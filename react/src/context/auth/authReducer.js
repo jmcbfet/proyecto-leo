@@ -15,7 +15,7 @@ export default (state, action) => {
             return state
 
         case LOGIN_EXITOSO:
-            localStorage.setItem('token', action.payload.token)
+            //localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
                 auth: true,

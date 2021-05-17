@@ -18,7 +18,7 @@ const UsuariosState = (props) => {
     const initialState = {
         comentarios: null,
         mesas: null,
-        cuenta: null,
+        cuenta: [],
         total: 0
     }
 
